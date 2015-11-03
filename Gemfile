@@ -1,2 +1,5 @@
+source 'https://rubygems.org'
+gem 'puppet', '~>3.8'
 gem 'rspec-puppet'
+gem 'puppet-lint'
 gem 'puppetlabs_spec_helper'
