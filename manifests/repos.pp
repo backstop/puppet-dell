@@ -21,7 +21,7 @@ class dell::repos() inherits dell::params {
 
       # Dell APT Repos
       apt::key { 'dell-community':
-        key        => '1285491434D8786F',
+        key        => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
         key_server => 'pool.sks-keyservers.net',
       }
 
