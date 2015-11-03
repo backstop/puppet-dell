@@ -19,7 +19,6 @@ class dell {
   if $::manufacturer =~ /Dell/ {
     class { 'dell::repos': }
     class { 'dell::openmanage': }
-    class { 'dell::firmware': }
   }
 }
 

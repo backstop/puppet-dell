@@ -93,7 +93,7 @@ class dell::openmanage (
   # WSMAN is used for BIOS configuration
   case $::osfamily {
     'Debian' : {
-      $wsman_packages = ['libxml2-utils', 'coreutils', 'wsl']
+      $wsman_packages = ['libxml2-utils', 'coreutils']
       ensure_packages($wsman_packages)
     }
     'RedHat' : {

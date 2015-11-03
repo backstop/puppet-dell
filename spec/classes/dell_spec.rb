@@ -15,7 +15,6 @@ describe 'dell', :type => :class do
       it 'should compile' do
         should contain_class('dell::repos')
         should contain_class('dell::openmanage')
-        should contain_class('dell::firmware')
       end
     end
   end
@@ -36,7 +35,6 @@ describe 'dell', :type => :class do
       it 'should compile' do
         should contain_class('dell::repos')
         should contain_class('dell::openmanage')
-        should contain_class('dell::firmware')
       end
     end
   end
