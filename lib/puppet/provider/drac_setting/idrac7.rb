@@ -5,14 +5,14 @@ Puppet::Type.type(:drac_setting).provide(:idrac7) do
   defaultfor :idrac_major_version => 7
 
   # must have idrac firmware >= 1.3
-  confine :true => File.exist?('/opt/dell/srvadmin/sbin/racadm')# &&
-                   #`/opt/dell/srvadmin/sbin/racadm getsysinfo` =~ /Firmware Version\s+= 1\.[3-9]/
+  confine :true => File.exist?('/opt/dell/srvadmin/sbin/racadm') &&
+                   `/opt/dell/srvadmin/sbin/racadm getsysinfo` =~ /Firmware Version\s+= 1\.[3-9]/
 
   commands :racadm => '/opt/dell/srvadmin/sbin/racadm'
 
   def object_value
     fqdd = racadm_fqdd(resource[:group], resource[:object_name], resource[:object_index])
-    #result = racadm('get', fqdd).strip
+    result = racadm('get', fqdd).strip
 
     # racadm has two somewhat unpredictable response formats
     if result =~ /^\[Key=/
@@ -24,13 +24,13 @@ Puppet::Type.type(:drac_setting).provide(:idrac7) do
     else
       # for indexed values like iDRAC.SNMP.Alert.1.DestAddr, it just returns
       # the value you wanted.
-      #zombie_check(result)
+      zombie_check(result)
     end
   end
 
   def object_value=(value)
     fqdd = racadm_fqdd(resource[:group], resource[:object_name], resource[:object_index])
-    #zombie_check(racadm('set', fqdd, value).strip)
+    zombie_check(racadm('set', fqdd, value).strip)
   end
 
   def racadm_fqdd(drac_group, drac_object, index=nil)
