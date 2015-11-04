@@ -159,15 +159,6 @@ class dell::openmanage (
     mode   => '0755',
   }
 
-  if $environment != 'vagrant' {
-    service { $ipmiservice:
-      ensure => running,
-      enable => true,
-      notify => Service['dataeng'],
-      require => Package['OpenIPMI'],
-    }
-  }
-
   ########################################
   # iDRAC (default: true)
   ########################################
