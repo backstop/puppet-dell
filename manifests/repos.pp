@@ -38,11 +38,6 @@ class dell::repos() inherits dell::params {
       # Create the two repos
       ########################################
 
-      # This would add duplicate repos, and we want to manage them explicitly
-      package { 'dell-omsa-repository':
-        ensure => 'absent',
-      }
-
       if $::osfamily == 'RedHat'{
         if $::operatingsystemmajrelease < 7 {
           yumrepo { 'dell-omsa-indep':
@@ -52,7 +47,6 @@ class dell::repos() inherits dell::params {
             gpgcheck       => 1,
             gpgkey         => $dell::params::repo_indep_gpgkey,
             failovermethod => 'priority',
-            require        => Package['dell-omsa-repository'],
           } -> package { 'yum-dellsysid':  # I dislike this syntax, but     require would not work for some reason...
             ensure  => 'present',
           }
@@ -66,7 +60,6 @@ class dell::repos() inherits dell::params {
         gpgcheck       => 1,
         gpgkey         => $dell::params::repo_specific_gpgkey,
         failovermethod => 'priority',
-        require        => Package['dell-omsa-repository'],
       }
 
 
