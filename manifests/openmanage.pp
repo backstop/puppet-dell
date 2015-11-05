@@ -27,6 +27,7 @@ class dell::openmanage (
     'srvadmin-omilcore',
     'srvadmin-deng',
     'srvadmin-omcommon',
+    'libsmbios2',
   ]
   package { $base_packages:
     ensure  => 'present',
