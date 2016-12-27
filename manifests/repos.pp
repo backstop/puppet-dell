@@ -18,7 +18,6 @@ class dell::repos() inherits dell::params {
 
   case $::osfamily {
     'Debian' : {
-      $lc_lsbdistcodename = downcase($::lsbdistcodename)
       $lc_operatingsystem = downcase($::operatingsystem)
 
       # Dell APT Repos
@@ -28,9 +27,9 @@ class dell::repos() inherits dell::params {
       }
 
       apt::source { 'dell-community':
-        location          => 'http://linux.dell.com/repo/community/${lc_operatingsystem}',
+        location          => "http://linux.dell.com/repo/community/${lc_operatingsystem}",
         release           => '',
-        repos             => '${lc_lsbdistcodename}  openmanage',
+        repos             => 'openmanage',
         include_src       => false,
       }
 
