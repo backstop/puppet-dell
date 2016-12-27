@@ -20,9 +20,22 @@ class dell::openmanage (
   $webserver = false,
 ) inherits dell::params {
 
+  # Avoid dependency resolution problems by removing packages that dell
+  # system update no longer depends on.
+  #
+  $python_smbios_packages = [
+    'python-smbios',
+    'smbios-utils-python',
+    'yum-dellsysid',
+  ]
+  package { $python_smbios_packages:
+    ensure => 'purged',
+  }
+
   ########################################
   # Base packages and services
   ########################################
+  
   $base_packages = [
     'srvadmin-omilcore',
     'srvadmin-deng',
@@ -165,6 +178,20 @@ class dell::openmanage (
       enable => true,
       notify => Service['dataeng'],
       require => Package['OpenIPMI'],
+    }
+  }
+
+  # For CentOS 7, this srvadmin-storage component causes the dataeng service
+  # to segfault during startup.
+  #
+  if $::osfamily == 'RedHat' {
+    if $::operatingsystemmajrelease < 7 {
+      file_line { 'CentOS 7 srvadmin-storage compatibility fix':
+        ensure => 'absent',
+        path   => '/opt/dell/srvadmin/etc/srvadmin-storage/stsvc.ini',
+        line   => 'vil7=dsm_sm_psrvil',
+        notify => Service['dataeng'],
+      }
     }
   }
 
