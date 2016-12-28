@@ -87,13 +87,18 @@ class dell::openmanage (
   }
 
   # OMSA 7.2 really needs IPMI to function
+  # There is no OpemIPMI service on Debian Jessie
   case $::osfamily {
     'Debian' : {
       package { 'openipmi':
         ensure => installed,
         alias  => 'OpenIPMI',
       }
-      $ipmiservice = 'openipmi'
+      if $::operatingsystemmajrelease == '8' {
+        $ipmiservice = ''
+      } else {
+        $ipmiservice = 'openipmi'
+      }
     }
     'RedHat' : {
       package { 'OpenIPMI':
@@ -172,7 +177,7 @@ class dell::openmanage (
     mode   => '0755',
   }
 
-  if $environment != 'vagrant' {
+  if $environment != 'vagrant' and $ipmiservice != '' {
     service { $ipmiservice:
       ensure => running,
       enable => true,
@@ -198,11 +203,19 @@ class dell::openmanage (
   ########################################
   # iDRAC (default: true)
   ########################################
-  $idrac_packages = [
-    'srvadmin-idrac',
-    'srvadmin-idrac7',
-    'srvadmin-idracadm7',
-  ]
+  if $::operatingsystem == 'Debian' and $::operatingsystemajrelease == '8' {
+    $idrac_packages = [
+      'srvadmin-idracadm',
+      'srvadmin-idracadm7',
+      'srvadmin-idracadm8',
+    ]
+  } else {
+    $idrac_packages = [
+      'srvadmin-idrac',
+      'srvadmin-idrac7',
+      'srvadmin-idracadm7',
+    ]
+  }
   if $idrac {
     package { $idrac_packages:
       ensure  => 'present',
