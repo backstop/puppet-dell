@@ -203,7 +203,7 @@ class dell::openmanage (
   ########################################
   # iDRAC (default: true)
   ########################################
-  if $::operatingsystem == 'Debian' and $::operatingsystemajrelease == '8' {
+  if ($::operatingsystem == 'Debian' and $::operatingsystemmajrelease == '8') {
     $idrac_packages = [
       'srvadmin-idracadm',
       'srvadmin-idracadm7',
