@@ -217,9 +217,20 @@ class dell::openmanage (
     ]
   }
   if $idrac {
-    package { $idrac_packages:
-      ensure  => 'present',
-      require => Class['dell::repos'],
+    if ($::operatingsystem == 'Debian' and $::operatingsystemmajrelease == '8') {
+      package { $idrac_packages:
+        ensure  => 'present',
+        require => Class['dell::repos'],
+      }->
+      file { '/opt/dell/srvadmin/lib/srvadmin-omilcore':
+        ensure => 'link',
+        target => '/opt/dell/srvadmin/lib64/srvadmin-omilcore'
+      }
+    } else {
+      package { $idrac_packages:
+        ensure  => 'present',
+        require => Class['dell::repos'],
+      }
     }
   }
 
