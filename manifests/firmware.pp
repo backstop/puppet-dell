@@ -20,13 +20,15 @@ class dell::firmware(
 
   case $::osfamily {
     'Debian' : {
-      package { 'firmware-addon-dell':
-        ensure  => $ensure,
-        require => Class['dell::repos'],
-      }
-      package { 'firmware-tools':
-        ensure  => $ensure,
-        require => Class['dell::repos'],
+      if $::operatingsystemmajrelease < '8' {
+        package { 'firmware-addon-dell':
+          ensure  => $ensure,
+          require => Class['dell::repos'],
+        }
+        package { 'firmware-tools':
+          ensure  => $ensure,
+          require => Class['dell::repos'],
+        }
       }
     }
     'RedHat' : {

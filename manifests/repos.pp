@@ -18,17 +18,18 @@ class dell::repos() inherits dell::params {
 
   case $::osfamily {
     'Debian' : {
+      $lc_operatingsystem = downcase($::operatingsystem)
 
       # Dell APT Repos
       apt::key { 'dell-community':
-        key        => '34D8786F',
+        key        => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
         key_server => 'pool.sks-keyservers.net',
       }
 
       apt::source { 'dell-community':
-        location          => 'http://linux.dell.com/repo/community/ubuntu',
+        location          => "http://linux.dell.com/repo/community/${lc_operatingsystem}",
         release           => '',
-        repos             => 'precise openmanage',
+        repos             => 'openmanage',
         include_src       => false,
       }
 
