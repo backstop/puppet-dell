@@ -12,7 +12,7 @@ Puppet::Type.type(:drac_setting).provide(:idrac7) do
 
   def object_value
     fqdd = racadm_fqdd(resource[:group], resource[:object_name], resource[:object_index])
-    #result = racadm('get', fqdd).strip
+    result = racadm('get', fqdd).strip
 
     # racadm has two somewhat unpredictable response formats
     if result =~ /^\[Key=/
