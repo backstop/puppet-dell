@@ -27,7 +27,7 @@ class dell::repos() inherits dell::params {
       }
 
       apt::source { 'dell-community':
-        location          => "http://linux.dell.com/repo/community/${lc_operatingsystem}",
+        location          => "https://linux.dell.com/repo/community/${lc_operatingsystem}",
         release           => '',
         repos             => 'openmanage',
         include_src       => false,
@@ -73,8 +73,8 @@ class dell::repos() inherits dell::params {
 
       yumrepo { 'dell-dsu-os_independent':
         descr          => 'Dell System Update Repository - OS Independent',
-        baseurl        => 'http://linux.dell.com/repo/hardware/latest/os_independent/',
-        gpgkey         => 'http://linux.dell.com/repo/hardware/latest/public.key',
+        baseurl        => 'https://linux.dell.com/repo/hardware/latest/os_independent/',
+        gpgkey         => 'https://linux.dell.com/repo/hardware/latest/public.key',
         gpgcheck       => 1,
         enabled        => 1,
         failovermethod => 'priority',
@@ -82,8 +82,8 @@ class dell::repos() inherits dell::params {
 
       yumrepo { 'dell-dsu-os_dependent':
         descr          => 'Dell System Update Repository - OS Dependent',
-        mirrorlist     => 'http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1',
-        gpgkey         => 'http://linux.dell.com/repo/hardware/latest/public.key',
+        mirrorlist     => 'https://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1',
+        gpgkey         => 'https://linux.dell.com/repo/hardware/latest/public.key',
         gpgcheck       => 1,
         enabled        => 1,
         failovermethod => 'priority',
